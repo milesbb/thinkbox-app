@@ -1,4 +1,4 @@
-const { path, __dirname } = require("os");
+const path = require("path");
 
 module.exports = {
   entry: {
