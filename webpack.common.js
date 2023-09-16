@@ -27,5 +27,7 @@ module.exports = {
   resolve: {
     extensions: [".tsx", ".ts", ".js", ".json"],
     "@src": path.resolve(__dirname, "src"),
+    "@service": path.resolve(__dirname, "src", "service"),
+    "@controllers": path.resolve(__dirname, "src", "controllers"),
   },
 };
