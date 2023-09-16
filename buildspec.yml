@@ -1,0 +1,25 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      nodejs: 18
+    commands:
+      - npm install -g typescript
+  pre_build:
+    commands:
+      - echo Installing source NPM dependencies...
+      - npm install
+  build:
+    commands:
+      - echo Build started on `date`
+      - npm run analyze
+      - npm run build
+      - npm run test
+  post_build:
+    commands:
+      - zip -qr application.zip dist/universal/lambda.js
+      - echo Build completed on `date`
+artifacts:
+  files:
+    - application.zip
