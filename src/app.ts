@@ -4,19 +4,17 @@ import dotenv from "dotenv";
 import routers from "./controllers";
 import * as middleware from "./middleware";
 
-dotenv.config();
+const applyMiddleware = (app: express.Express) => {
+  dotenv.config();
 
-const app: express.Express = express();
-const port = process.env.PORT ?? 8000;
+  app.use(cors({ origin: "*", methods: ["GET", "POST"] }));
+  app.use(express.json({ limit: "2mb" }));
 
-app.use(cors({ origin: "*", methods: ["GET", "POST"] }));
-app.use(express.json());
+  routers.forEach((router) => app.use(router.path, ...router.handlers));
 
-routers.forEach((router) => app.use(router.path, ...router.handlers));
+  app.use(middleware.notFound);
+  app.use(middleware.errorHandler);
+  return app;
+};
 
-app.use(middleware.notFound);
-app.use(middleware.errorHandler);
-
-app.listen(port, () => {
-  console.log(`Server is hosted on port ${port}`);
-});
+export default applyMiddleware(express());
