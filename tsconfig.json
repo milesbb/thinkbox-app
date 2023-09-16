@@ -1,7 +1,7 @@
 {
   "include": ["src/**/*.ts"],
   "exclude": ["node_modules"],
-  "files": [],
+  "files": ["src/types/express/CustomRequest.d.ts"],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
