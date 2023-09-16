@@ -1,17 +1,22 @@
 import express from "express";
-import type { Request, Response, Application } from "express";
+import cors from "cors";
 import dotenv from "dotenv";
+import routers from "./controllers";
+import * as middleware from "./middleware";
 
-//  For env File
 dotenv.config();
 
-const app: Application = express();
+const app: express.Express = express();
 const port = process.env.PORT ?? 8000;
 
-app.get("/", (req: Request, res: Response) => {
-  res.send("Welcome to Express & TypeScript Server");
-});
+app.use(cors({ origin: "*", methods: ["GET", "POST"] }));
+app.use(express.json());
+
+routers.forEach((router) => app.use(router.path, ...router.handlers));
+
+app.use(middleware.notFound);
+app.use(middleware.errorHandler);
 
 app.listen(port, () => {
-  console.log(`Server is hosted at http://localhost:${port}`);
+  console.log(`Server is hosted on port ${port}`);
 });
